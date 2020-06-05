@@ -137,7 +137,10 @@ class SupervisedProcess:
             # Don't yield control between sending signal & calling wait
             # This way, we don't end up in a call to _restart_process_if_needed
             # and possibly restarting. We also set _killed, just to be sure.
-            self.proc.send_signal(signum)
+            try:
+                self.proc.send_signal(signum)
+            except:
+                pass
             self._killed = True
 
             # We cancel the restart watcher & wait for the process to finish,
